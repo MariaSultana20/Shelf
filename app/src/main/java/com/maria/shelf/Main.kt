@@ -94,6 +94,7 @@ fun main() {
 //    println("Total sum of the array is ${sum}")
 
 
+    // Functions
     var sum = 0
 
 //    for (i in 0..favouriteNumber.lastIndex)
@@ -128,8 +129,42 @@ fun main() {
     val lettersOnly: String = str.myFilter { it.isLetter() }
 
     println("The letter only text is: ${lettersOnly}")
+
+    // Task of Week-1
+    // Function
+    println(formatDuration(minutes = 100))
+    println(formatDuration(minutes = 24))
+    println(formatDuration(minutes = 120))
+    println(formatDuration(minutes = 145))
+    println(formatDuration(minutes = 119))
+
+    // Nullability Check
+    println(getUserName(userName = "Maria"))
+    println(getUserName(userName = null))
+
+    println("Is even: ${isEven(numberAsString = "10")}")
+    println("Is even: ${isEven(numberAsString = "5")}")
+    println("Is even: ${isEven(numberAsString = "Hii")}")
 }
 
+/// Week - 1: Sunday
+fun formatDuration(minutes: Int): String {
+    val hours = minutes/60
+    val output: String = "${hours}h ${minutes%60}m"
+    return output
+}
+
+fun getUserName(userName: String?): String {
+    if (userName == null) return "Guest"
+    return userName
+}
+
+fun isEven(numberAsString: String): Boolean {
+    val isEven = numberAsString.toIntOrNull()?.rem(2)?.equals(0) ?: false
+    return isEven
+}
+
+// Normal Functions
 //fun reversed(stringToReverse: String): String {
 //    return buildString {
 //        for(i in stringToReverse.lastIndex downTo 0) {
@@ -137,7 +172,6 @@ fun main() {
 //        }
 //    }
 //}
-
 fun String.reversed(): String {
     return buildString {
         for(i in this@reversed.lastIndex downTo 0) {

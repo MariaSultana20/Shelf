@@ -3,6 +3,8 @@ package com.maria.shelf
 import android.R
 import org.jetbrains.annotations.NotNull
 
+data class Book(val title: String, val totalPages: Int)
+
 fun main() {
     ///Printing
     print("Hello, World!!\n")
@@ -130,21 +132,53 @@ fun main() {
 
     println("The letter only text is: ${lettersOnly}")
 
-    // Task of Week-1
-    // Function
+    // Week-1: Sun: Function
     println(formatDuration(minutes = 100))
     println(formatDuration(minutes = 24))
     println(formatDuration(minutes = 120))
     println(formatDuration(minutes = 145))
     println(formatDuration(minutes = 119))
 
-    // Nullability Check
+    // Week-1: Mon: Nullability Check
     println(getUserName(userName = "Maria"))
     println(getUserName(userName = null))
 
     println("Is even: ${isEven(numberAsString = "10")}")
     println("Is even: ${isEven(numberAsString = "5")}")
     println("Is even: ${isEven(numberAsString = "Hii")}")
+
+    // Week-1: Tue: Collections and lambdas
+    val books = listOf(
+            Book("Power of Your Subconscious Mind", totalPages = 215),
+            Book("Time Management", totalPages = 128),
+            Book("Never Stop Learning", totalPages = 140),
+            Book("The Almanack of Naval Ravikant", totalPages = 239),
+            Book("Steal Like an Artist", totalPages = 140),
+            Book("Prottaborton", totalPages = 221),
+            Book("The Jungle Book", totalPages = 216),
+            Book("The Kite Runner", totalPages = 324),
+            Book("A Thousand Splendid Suns", totalPages = 372),
+            Book("Competitive Programmer's Handbook", totalPages = 285),
+            Book("Paradoxical Sajid", totalPages = 160),
+            Book("Paradoxical Sajid 2", totalPages = 225),
+            Book("Revive Your Heart", totalPages = 160),
+            Book("Satkahon", totalPages = 728),
+            Book("The Miracle Morning", totalPages = 304)
+        )
+    val topThreeBooks = books
+        .sortedByDescending { it.totalPages }
+        .take(3)
+    println("Top three books having most number of pages:\n ${topThreeBooks}")
+
+    val groupByFirstLetter: Map<Char, List<Book>> = books.groupBy { it.title.first() }
+    println(groupByFirstLetter)
+
+    val topBooksInEachGroup = groupByFirstLetter.map {
+        it.value
+            .sortedByDescending { it.totalPages }
+            .take(3)
+    }
+    println(topBooksInEachGroup)
 }
 
 /// Week - 1: Sunday

@@ -179,6 +179,16 @@ fun main() {
             .take(3)
     }
     println(topBooksInEachGroup)
+
+    // Week - 1: Wed: Control flow
+    val pageProgressPercentage = 42.3
+
+    val status: String = when(pageProgressPercentage) {
+        0.0 -> "Not Started"
+        in 0.1 .. 99.9 -> "Reading"
+        else -> "Finished"
+    }
+    println("Reading status is: ${status}")
 }
 
 /// Week - 1: Sunday

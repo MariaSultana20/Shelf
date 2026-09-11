@@ -1,8 +1,9 @@
 package com.maria.shelf
 
+data class Book(val title: String)
 fun main() {
     //Week-1: Thurs: Shelf, as a console program
-    var books = mutableListOf<String>()
+    var books = mutableListOf<Book>()
     while(true) {
         println("If you want to 'Add a Book' then enter '1'")
         println("If you want to 'List of All Books' then enter '2'")
@@ -14,7 +15,8 @@ fun main() {
             if(selectedMenu == 1) {
                 print("Enter a book title: ")
                 val bookTitle = readln()
-                books.add(bookTitle)
+                val curBook = Book(bookTitle)
+                books.add(curBook)
                 println("Added a book of title: ${bookTitle} at index: ${books.size - 1}")
             } else if(selectedMenu == 2) {
                 if(books.size == 0) {
@@ -22,7 +24,7 @@ fun main() {
                 } else {
                     println("Here's the list of all books:")
                     for (i in 0 until books.size) {
-                        println("Book at index: ${i}, has title: ${books[i]}")
+                        println("Book at index: ${i}, has title: ${books[i].title}")
                     }
                 }
             } else if(selectedMenu == 3) {
@@ -35,7 +37,8 @@ fun main() {
                     val bookTitle = readln()
                     for (i in 0 until books.size) {
                         if(i == bookIndexToUpdate) {
-                            books[i] = bookTitle
+                            val newCurBook = books[i].copy(bookTitle)
+                            books[i] = newCurBook
                         }
                     }
                     println("Updated a book of title: ${bookTitle} at index: ${bookIndexToUpdate}")
@@ -43,8 +46,9 @@ fun main() {
             } else if(selectedMenu == 4) {
                 print("Enter the book title you want to delete: ")
                 val bookTitle = readln()
+                val curBook = Book(bookTitle)
                 val numberOfBooks = books.size
-                books.remove(bookTitle)
+                books.remove(curBook)
                 if(numberOfBooks == books.size) {
                     println("Could not find this book. Please, try again!!")
                 } else {

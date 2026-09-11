@@ -1,5 +1,5 @@
 package com.maria.shelf
-data class Book(val title: String, val totalPages: Int)
+data class BookWithPages(val title: String, val totalPages: Int)
 
 fun main() {
     // Week-1: Sun: Function
@@ -19,28 +19,28 @@ fun main() {
 
     // Week-1: Tue: Collections and lambdas
     val books = listOf(
-        Book("Power of Your Subconscious Mind", totalPages = 215),
-        Book("Time Management", totalPages = 128),
-        Book("Never Stop Learning", totalPages = 140),
-        Book("The Almanack of Naval Ravikant", totalPages = 239),
-        Book("Steal Like an Artist", totalPages = 140),
-        Book("Prottaborton", totalPages = 221),
-        Book("The Jungle Book", totalPages = 216),
-        Book("The Kite Runner", totalPages = 324),
-        Book("A Thousand Splendid Suns", totalPages = 372),
-        Book("Competitive Programmer's Handbook", totalPages = 285),
-        Book("Paradoxical Sajid", totalPages = 160),
-        Book("Paradoxical Sajid 2", totalPages = 225),
-        Book("Revive Your Heart", totalPages = 160),
-        Book("Satkahon", totalPages = 728),
-        Book("The Miracle Morning", totalPages = 304)
+        BookWithPages("Power of Your Subconscious Mind", totalPages = 215),
+        BookWithPages("Time Management", totalPages = 128),
+        BookWithPages("Never Stop Learning", totalPages = 140),
+        BookWithPages("The Almanack of Naval Ravikant", totalPages = 239),
+        BookWithPages("Steal Like an Artist", totalPages = 140),
+        BookWithPages("Prottaborton", totalPages = 221),
+        BookWithPages("The Jungle Book", totalPages = 216),
+        BookWithPages("The Kite Runner", totalPages = 324),
+        BookWithPages("A Thousand Splendid Suns", totalPages = 372),
+        BookWithPages("Competitive Programmer's Handbook", totalPages = 285),
+        BookWithPages("Paradoxical Sajid", totalPages = 160),
+        BookWithPages("Paradoxical Sajid 2", totalPages = 225),
+        BookWithPages("Revive Your Heart", totalPages = 160),
+        BookWithPages("Satkahon", totalPages = 728),
+        BookWithPages("The Miracle Morning", totalPages = 304)
     )
     val topThreeBooks = books
         .sortedByDescending { it.totalPages }
         .take(3)
     println("Top three books having most number of pages:\n ${topThreeBooks}")
 
-    val groupByFirstLetter: Map<Char, List<Book>> = books.groupBy { it.title.first() }
+    val groupByFirstLetter: Map<Char, List<BookWithPages>> = books.groupBy { it.title.first() }
     println(groupByFirstLetter)
 
     val topBooksInEachGroup = groupByFirstLetter.map {

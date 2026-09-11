@@ -1,9 +1,7 @@
 package com.maria.shelf
 
-import android.R
-import org.jetbrains.annotations.NotNull
-
-data class Book(val title: String, val totalPages: Int)
+import androidx.compose.ui.Modifier
+import kotlin.math.sqrt
 
 fun main() {
     ///Printing
@@ -132,80 +130,30 @@ fun main() {
 
     println("The letter only text is: ${lettersOnly}")
 
-    // Week-1: Sun: Function
-    println(formatDuration(minutes = 100))
-    println(formatDuration(minutes = 24))
-    println(formatDuration(minutes = 120))
-    println(formatDuration(minutes = 145))
-    println(formatDuration(minutes = 119))
+    // Data and Classes
+    val rect1 = Rectangle(width = 10f, height = 10f)
+    println("Width of rect1 is: ${rect1.width}")
+    println("Height of rect1 is: ${rect1.height}")
+    println("Diagonal of rect1 is: ${rect1.diagonal}")
 
-    // Week-1: Mon: Nullability Check
-    println(getUserName(userName = "Maria"))
-    println(getUserName(userName = null))
+//    val rect2 = Rectangle(width = 21f, height = 100f)
+//    println(rect2.area)
 
-    println("Is even: ${isEven(numberAsString = "10")}")
-    println("Is even: ${isEven(numberAsString = "5")}")
-    println("Is even: ${isEven(numberAsString = "Hii")}")
+    val rect2 = rect1.copy(height = 20.0F)
+    println(rect2.width)
+    println(rect2.diagonal)
 
-    // Week-1: Tue: Collections and lambdas
-    val books = listOf(
-            Book("Power of Your Subconscious Mind", totalPages = 215),
-            Book("Time Management", totalPages = 128),
-            Book("Never Stop Learning", totalPages = 140),
-            Book("The Almanack of Naval Ravikant", totalPages = 239),
-            Book("Steal Like an Artist", totalPages = 140),
-            Book("Prottaborton", totalPages = 221),
-            Book("The Jungle Book", totalPages = 216),
-            Book("The Kite Runner", totalPages = 324),
-            Book("A Thousand Splendid Suns", totalPages = 372),
-            Book("Competitive Programmer's Handbook", totalPages = 285),
-            Book("Paradoxical Sajid", totalPages = 160),
-            Book("Paradoxical Sajid 2", totalPages = 225),
-            Book("Revive Your Heart", totalPages = 160),
-            Book("Satkahon", totalPages = 728),
-            Book("The Miracle Morning", totalPages = 304)
-        )
-    val topThreeBooks = books
-        .sortedByDescending { it.totalPages }
-        .take(3)
-    println("Top three books having most number of pages:\n ${topThreeBooks}")
-
-    val groupByFirstLetter: Map<Char, List<Book>> = books.groupBy { it.title.first() }
-    println(groupByFirstLetter)
-
-    val topBooksInEachGroup = groupByFirstLetter.map {
-        it.value
-            .sortedByDescending { it.totalPages }
-            .take(3)
-    }
-    println(topBooksInEachGroup)
-
-    // Week - 1: Wed: Control flow
-    val pageProgressPercentage = 42.3
-
-    val status: String = when(pageProgressPercentage) {
-        0.0 -> "Not Started"
-        in 0.1 .. 99.9 -> "Reading"
-        else -> "Finished"
-    }
-    println("Reading status is: ${status}")
+    println("Max area between two rectangles is: ${maxArea(rect1, rect2)}")
+}
+data class Rectangle(val width: Float, val height: Float) {
+    val area = width * height
+    val diagonal = sqrt(width * width + height * height)
 }
 
-/// Week - 1: Sunday
-fun formatDuration(minutes: Int): String {
-    val hours = minutes/60
-    val output: String = "${hours}h ${minutes%60}m"
-    return output
-}
-
-fun getUserName(userName: String?): String {
-    if (userName == null) return "Guest"
-    return userName
-}
-
-fun isEven(numberAsString: String): Boolean {
-    val isEven = numberAsString.toIntOrNull()?.rem(2)?.equals(0) ?: false
-    return isEven
+fun maxArea(rect1: Rectangle, rect2: Rectangle): Float {
+    val area1 = rect1.area
+    val area2 = rect2.area
+    return maxOf(area1, area2)
 }
 
 // Normal Functions

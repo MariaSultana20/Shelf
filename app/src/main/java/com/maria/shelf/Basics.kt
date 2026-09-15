@@ -149,6 +149,7 @@ fun main() {
 
     val circle = Circle(5f)
     println("Sum of areas: ${sumAreas(rect1, circle)}")
+    printShapes(rect1, circle, rect2)
 }
 fun sumAreas(vararg Shapes: Shape): Double {
 //    return Shapes.sumOf { it.area.toDouble() }
@@ -158,14 +159,15 @@ fun sumAreas(vararg Shapes: Shape): Double {
 }
 fun printShapes(vararg shapes: Shape) {
     for(shape in shapes) {
-       when(shape) {
-           is Rectangle -> println("Yo this shape is a rectangle")
-           is Circle -> println("This shape is a circle")
+       val output = when(shape) {
+           is Rectangle -> "Yo this shape is a rectangle"
+           is Circle -> "This shape is a circle"
        }
+        println(output)
     }
 }
 //Interface and Abstract classes
-interface Shape {
+sealed interface Shape {
     val area: Float
     val circumference: Float
 }

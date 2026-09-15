@@ -150,6 +150,25 @@ fun main() {
     val circle = Circle(5f)
     println("Sum of areas: ${sumAreas(rect1, circle)}")
     printShapes(rect1, circle, rect2)
+
+    // Enum class
+    for(country in Country.entries) {
+        println(country.code)
+    }
+}
+// Enum class
+enum class Country(val code: String) {
+    GERMANY(code = "DE"),
+    FRANCE(code = "FR"),
+    USA(code = "US")
+}
+
+fun greetMe(country: Country): String {
+    return when(country) {
+        Country.GERMANY ->  "Guten Tag!"
+        Country.FRANCE -> "Bonjour!"
+        Country.USA -> "Hello!"
+    }
 }
 fun sumAreas(vararg Shapes: Shape): Double {
 //    return Shapes.sumOf { it.area.toDouble() }

@@ -3,7 +3,7 @@ package com.maria.shelf
 import android.os.Message
 
 data class Book(
-    val title: String,
+    var title: String,
     val readingStatus: ReadingStatus = ReadingStatus.WANT_TO_READ
 )
 enum class ReadingStatus {
@@ -28,6 +28,10 @@ fun main() {
     // Week-2: Monday: Enums, sealed classes, interfaces
     val res = Result.success
     handleSaveResults(res)
+
+    // Week-2: Tue: Sep15: Extensions and scope functions
+    val textBook = Book("Learn Kotlin with Fun", readingStatus = ReadingStatus.READING)
+    println("Reading process: ${textBook.progressPercent()}")
 
     //Week-1: Thurs: Shelf, as a console program
     var books = mutableListOf<Book>()
@@ -56,19 +60,30 @@ fun main() {
                 }
             } else if(selectedMenu == 3) {
                 print("Enter the book index you want to update: ")
-                val bookIndexToUpdate = readln().toInt()
-                if(bookIndexToUpdate >= books.size) {
-                    println("Index out of bound. Please, enter a valid index")
+                val bookIndexToUpdate = readln().toIntOrNull()
+                if(bookIndexToUpdate == null) {
+                    println("Please, enter a valid index")
                 } else {
-                    print("Enter updated book title: ")
-                    val bookTitle = readln()
-                    for (i in 0 until books.size) {
-                        if(i == bookIndexToUpdate) {
-                            val newCurBook = books[i].copy(bookTitle)
-                            books[i] = newCurBook
+                    if(bookIndexToUpdate >= books.size) {
+                        println("Index out of bound. Please, enter a valid index")
+                    } else {
+                        print("Enter updated book title: ")
+                        val prevBookTitle = books[bookIndexToUpdate].title
+                        val bookTitle = readln()
+//                    for (i in 0 until books.size) {
+//                        if(i == bookIndexToUpdate) {
+//                            val newCurBook = books[i].copy(bookTitle)
+//                            books[i] = newCurBook
+//                        }
+//                    }
+                        books.map { book ->
+                            book.apply {
+                                if(this.title == prevBookTitle)
+                                    title = bookTitle
+                            }
                         }
+                        println("Updated a book of title: ${bookTitle} at index: ${bookIndexToUpdate}")
                     }
-                    println("Updated a book of title: ${bookTitle} at index: ${bookIndexToUpdate}")
                 }
             } else if(selectedMenu == 4) {
                 print("Enter the book title you want to delete: ")
@@ -88,4 +103,14 @@ fun main() {
             println("Please, enter a valid option")
         }
     }
+}
+
+// Week-2: Tue: Sep15: Extensions and scope functions
+fun Book.progressPercent(): Int {
+    val progress = when(this.readingStatus) {
+        ReadingStatus.WANT_TO_READ -> 0
+        ReadingStatus.READING -> 45
+        ReadingStatus.FINISHED -> 100
+    }
+    return progress
 }

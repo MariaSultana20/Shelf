@@ -1,7 +1,34 @@
 package com.maria.shelf
 
-data class Book(val title: String)
+import android.os.Message
+
+data class Book(
+    val title: String,
+    val readingStatus: ReadingStatus = ReadingStatus.WANT_TO_READ
+)
+enum class ReadingStatus {
+    WANT_TO_READ, READING, FINISHED
+}
+
+sealed class Result {
+    object success: Result()
+    data class error(val errorMessage: String): Result()
+}
+fun handleSaveResults(result: Result) {
+    when(result) {
+        is Result.success -> {
+            println("Successful result")
+        }
+        is Result.error -> {
+            println("Error result")
+        }
+    }
+}
 fun main() {
+    // Week-2: Monday: Enums, sealed classes, interfaces
+    val res = Result.success
+    handleSaveResults(res)
+
     //Week-1: Thurs: Shelf, as a console program
     var books = mutableListOf<Book>()
     while(true) {
@@ -24,7 +51,7 @@ fun main() {
                 } else {
                     println("Here's the list of all books:")
                     for (i in 0 until books.size) {
-                        println("Book at index: ${i}, has title: ${books[i].title}")
+                        println("Book at index-${i} is: ${books[i]}")
                     }
                 }
             } else if(selectedMenu == 3) {

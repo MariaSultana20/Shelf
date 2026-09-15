@@ -156,10 +156,27 @@ fun sumAreas(vararg Shapes: Shape): Double {
         shape.area.toDouble()
     }
 }
+fun printShapes(vararg shapes: Shape) {
+    for(shape in shapes) {
+       when(shape) {
+           is Rectangle -> println("Yo this shape is a rectangle")
+           is Circle -> println("This shape is a circle")
+       }
+    }
+}
+//Interface and Abstract classes
 interface Shape {
     val area: Float
     val circumference: Float
 }
+//abstract class Shape {
+//    abstract val area: Float
+//    abstract val circumference: Float
+//    var counter = 0
+//    fun inc() {
+//        counter++
+//    }
+//}
 data class Rectangle(
     val width: Float,
     val height: Float

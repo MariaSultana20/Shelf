@@ -1,6 +1,6 @@
 package com.maria.shelf
 
-import androidx.compose.ui.Modifier
+import kotlin.math.PI
 import kotlin.math.sqrt
 
 fun main() {
@@ -144,12 +144,39 @@ fun main() {
     println(rect2.diagonal)
 
     println("Max area between two rectangles is: ${maxArea(rect1, rect2)}")
+
+    println("Circumference of rect2 is: ${rect2.circumference}")
+
+    val circle = Circle(5f)
+    println("Sum of areas: ${sumAreas(rect1, circle)}")
 }
-data class Rectangle(val width: Float, val height: Float) {
-    val area = width * height
+fun sumAreas(vararg Shapes: Shape): Double {
+//    return Shapes.sumOf { it.area.toDouble() }
+    return Shapes.sumOf { shape ->
+        shape.area.toDouble()
+    }
+}
+interface Shape {
+    val area: Float
+    val circumference: Float
+}
+data class Rectangle(
+    val width: Float,
+    val height: Float
+): Shape {
     val diagonal = sqrt(width * width + height * height)
+    override val area = width * height
+
+    //shortcut is "control + i" for mac
+    override val circumference: Float
+        get() = 2 * width + 2 * height
 }
 
+data class Circle(val radius: Float): Shape {
+    val diameter = 2 * radius
+    override val area: Float = radius * radius * PI.toFloat()
+    override val circumference: Float = 2 * radius * PI.toFloat()
+}
 fun maxArea(rect1: Rectangle, rect2: Rectangle): Float {
     val area1 = rect1.area
     val area2 = rect2.area

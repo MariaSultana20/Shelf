@@ -1,6 +1,10 @@
 package com.maria.shelf
 
 import android.os.Message
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 data class Book(
     var title: String,
@@ -24,7 +28,7 @@ fun handleSaveResults(result: Result) {
         }
     }
 }
-fun main() {
+suspend fun main() {
     // Week-2: Monday: Enums, sealed classes, interfaces
     val res = Result.success
     handleSaveResults(res)
@@ -32,6 +36,18 @@ fun main() {
     // Week-2: Tue: Sep15: Extensions and scope functions
     val textBook = Book("Learn Kotlin with Fun", readingStatus = ReadingStatus.READING)
     println("Reading process: ${textBook.progressPercent()}")
+
+    // Week-2: Wed: Sep16: Coroutines, lightly
+    withContext(Dispatchers.Default) {
+        this.launch {
+            loadBooks()
+        }
+        this.launch {
+            println("The 'CoroutineScope.launch()' running on ${Thread.currentThread().name}")
+            delay(1000)
+        }
+        println("The 'withContext()' running on ${Thread.currentThread().name}")
+    }
 
     //Week-1: Thurs: Shelf, as a console program
     var books = mutableListOf<Book>()
@@ -113,4 +129,11 @@ fun Book.progressPercent(): Int {
         ReadingStatus.FINISHED -> 100
     }
     return progress
+}
+
+// Week-2: Wed: Sep16: Coroutines, lightly
+suspend fun loadBooks() {
+    println("The 'loadBooks()' function running on ${Thread.currentThread().name}")
+    delay(2000)
+    //TODO: call api for loading books from database
 }

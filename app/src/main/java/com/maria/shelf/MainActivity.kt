@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import com.maria.shelf.ui.theme.ShelfTheme
 
 data class BookWithPage(
@@ -137,12 +142,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             ShelfTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    FakeComposable(modifier = Modifier.padding(innerPadding))
-//                    ScrollableDataList(
-//                        dataList = books,
-//                        modifier = Modifier
-//                            .padding(innerPadding)
-//                    )
+                    ScrollableDataList(
+                        dataList = books,
+                        modifier = Modifier
+                            .padding(innerPadding)
+                    )
                 }
             }
         }
@@ -165,48 +169,67 @@ fun MyUI(modifier: Modifier = Modifier) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScrollableDataList(dataList: List<BookWithPage>, modifier: Modifier = Modifier) {
-    LazyColumn (
-        modifier = modifier
-            .fillMaxWidth()
-            .background(Color.White)
-            .padding(10.dp),
-        verticalArrangement = Arrangement.spacedBy(15.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        items(dataList) { item ->
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.LightGray)
-                    .padding(10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = item.title,
-                    color = Color.Black
-                )
-                Text(
-                    text = "${item.totalPages} pages",
-                    color = Color.Black
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.LightGray)
-                    .padding(10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "by ${item.author}",
-                    color = Color.Black
-                )
-                Text(
-                    text = item.status,
-                    color = Color.Black
-                )
+    var query by remember { mutableStateOf("") }
+    var active by remember { mutableStateOf(false) }
+
+    val filteredList = dataList.filter {
+        it.title.contains(query, ignoreCase = true)
+    }
+
+    SearchBar(
+        modifier = Modifier.fillMaxWidth().padding(16.dp),
+        query = query,
+        onQueryChange = { query = it },
+        onSearch = { active = false},
+        active = active,
+        onActiveChange = { active = it },
+        placeholder = { Text("Search Books") },
+        leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search Icon")}
+    ) {
+        LazyColumn (
+            modifier = modifier
+                .fillMaxWidth()
+                .background(Color.White)
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(15.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            items(filteredList) { item ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.LightGray)
+                        .padding(10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = item.title,
+                        color = Color.Black
+                    )
+                    Text(
+                        text = "${item.totalPages} pages",
+                        color = Color.Black
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.LightGray)
+                        .padding(10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "by ${item.author}",
+                        color = Color.Black
+                    )
+                    Text(
+                        text = item.status,
+                        color = Color.Black
+                    )
+                }
             }
         }
     }

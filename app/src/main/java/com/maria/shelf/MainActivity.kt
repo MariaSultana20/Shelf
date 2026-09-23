@@ -8,16 +8,22 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -131,11 +137,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             ShelfTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ScrollableDataList(
-                        dataList = books,
-                        modifier = Modifier
-                            .padding(innerPadding)
-                    )
+                    Counter(modifier = Modifier.padding(innerPadding))
+//                    ScrollableDataList(
+//                        dataList = books,
+//                        modifier = Modifier
+//                            .padding(innerPadding)
+//                    )
                 }
             }
         }
@@ -201,6 +208,25 @@ fun ScrollableDataList(dataList: List<BookWithPage>, modifier: Modifier = Modifi
                     color = Color.Black
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun Counter(modifier: Modifier = Modifier) {
+    var counter by remember { mutableStateOf(0) }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(counter.toString())
+        Spacer(Modifier.height(10.dp))
+        Button( onClick = {
+            counter = counter + 1
+        }) {
+            Text("Click Me")
         }
     }
 }

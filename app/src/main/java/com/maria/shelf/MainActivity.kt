@@ -137,7 +137,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ShelfTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Counter(modifier = Modifier.padding(innerPadding))
+                    FakeComposable(modifier = Modifier.padding(innerPadding))
 //                    ScrollableDataList(
 //                        dataList = books,
 //                        modifier = Modifier
@@ -213,9 +213,7 @@ fun ScrollableDataList(dataList: List<BookWithPage>, modifier: Modifier = Modifi
 }
 
 @Composable
-fun Counter(modifier: Modifier = Modifier) {
-    var counter by remember { mutableStateOf(0) }
-
+fun Counter(modifier: Modifier = Modifier, counter: Int, onClick: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -223,10 +221,21 @@ fun Counter(modifier: Modifier = Modifier) {
     ) {
         Text(counter.toString())
         Spacer(Modifier.height(10.dp))
-        Button( onClick = {
-            counter = counter + 1
-        }) {
+        Button(onClick = onClick) {
             Text("Click Me")
         }
     }
+}
+
+@Composable
+fun FakeComposable(modifier: Modifier) {
+    var counter by remember { mutableStateOf(0) }
+
+    Counter(
+        modifier = modifier,
+        counter = counter,
+        onClick = {
+            counter++
+        }
+    )
 }

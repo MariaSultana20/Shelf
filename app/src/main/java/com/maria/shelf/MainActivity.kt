@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -34,8 +36,11 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextField
+import androidx.compose.ui.draw.shadow
 import com.maria.shelf.ui.theme.ShelfTheme
-
+import androidx.compose.material3.OutlinedTextField
 data class BookWithPage(
     val id: Long,
     val title: String,
@@ -159,16 +164,83 @@ class MainActivity : ComponentActivity() {
         setContent {
             ShelfTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ScrollableDataList(
-                        bookList = books,
-                        modifier = Modifier
-                            .padding(innerPadding)
-                    )
+//                    ScrollableDataList(
+//                        bookList = books,
+//                        modifier = Modifier
+//                            .padding(innerPadding)
+//                    )
+                    //MyTextField(modifier = Modifier.padding(innerPadding))
+                    RegistrationForm()
                 }
             }
         }
     }
 }
+@Composable
+fun MyTextField(modifier: Modifier = Modifier) {
+    var title by remember { mutableStateOf("") }
+    Box(
+        modifier = modifier.fillMaxWidth().padding(10.dp)
+    ) {
+        TextField(
+            value = title,
+            onValueChange = { title = it },
+            label = { Text("Note title") },
+            placeholder = { Text("For example: Kotlin practice") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth().padding(10.dp)
+        )
+    }
+}
+
+@Composable
+fun RegistrationForm() {
+    // 1. Define UI State for inputs
+    var email by remember { mutableStateOf("") }
+
+    // 2. Derive validation states dynamically
+    val isEmailValid = email.contains("@") && email.contains(".")
+    val showError = email.isNotEmpty() && !isEmailValid
+    val isButtonEnabled = isEmailValid
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        // 3. Input Field with Inline Validation & Error States
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Email Address") },
+            isError = showError, // Triggers error border color
+            supportingText = {
+                if (showError) {
+                    Text(
+                        text = "Please enter a valid email address.",
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // 4. Button Enablement based on validation state
+        Button(
+            onClick = {
+                println(email)
+            },
+            enabled = isButtonEnabled, // Automatically enables/disables
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Submit")
+        }
+    }
+}
+
 @Composable
 fun MyUI(modifier: Modifier = Modifier) {
     Column {

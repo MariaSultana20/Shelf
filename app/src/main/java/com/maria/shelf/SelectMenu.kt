@@ -1,12 +1,11 @@
 package com.maria.shelf
 
-import android.os.Message
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-data class Book(
+data class BookV1(
     var title: String,
     val readingStatus: ReadingStatus = ReadingStatus.WANT_TO_READ
 )
@@ -34,7 +33,7 @@ suspend fun main() {
     handleSaveResults(res)
 
     // Week-2: Tue: Sep15: Extensions and scope functions
-    val textBook = Book("Learn Kotlin with Fun", readingStatus = ReadingStatus.READING)
+    val textBook = BookV1("Learn Kotlin with Fun", readingStatus = ReadingStatus.READING)
     println("Reading process: ${textBook.progressPercent()}")
 
     // Week-2: Wed: Sep16: Coroutines, lightly
@@ -50,7 +49,7 @@ suspend fun main() {
     }
 
     //Week-1: Thurs: Shelf, as a console program
-    var books = mutableListOf<Book>()
+    var books = mutableListOf<BookV1>()
     while(true) {
         println("If you want to 'Add a Book' then enter '1'")
         println("If you want to 'List of All Books' then enter '2'")
@@ -62,7 +61,7 @@ suspend fun main() {
             if(selectedMenu == 1) {
                 print("Enter a book title: ")
                 val bookTitle = readln()
-                val curBook = Book(bookTitle)
+                val curBook = BookV1(bookTitle)
                 books.add(curBook)
                 println("Added a book of title: ${bookTitle} at index: ${books.size - 1}")
             } else if(selectedMenu == 2) {
@@ -104,7 +103,7 @@ suspend fun main() {
             } else if(selectedMenu == 4) {
                 print("Enter the book title you want to delete: ")
                 val bookTitle = readln()
-                val curBook = Book(bookTitle)
+                val curBook = BookV1(bookTitle)
                 val numberOfBooks = books.size
                 books.remove(curBook)
                 if(numberOfBooks == books.size) {
@@ -122,7 +121,7 @@ suspend fun main() {
 }
 
 // Week-2: Tue: Sep15: Extensions and scope functions
-fun Book.progressPercent(): Int {
+fun BookV1.progressPercent(): Int {
     val progress = when(this.readingStatus) {
         ReadingStatus.WANT_TO_READ -> 0
         ReadingStatus.READING -> 45
